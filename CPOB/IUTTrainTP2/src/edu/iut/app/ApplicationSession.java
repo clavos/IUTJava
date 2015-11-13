@@ -5,28 +5,30 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 public class ApplicationSession {
 	
-	// Exercice 1 : GÃ©rer l'internationation
-	protected /* Objet permettant la gestion des 'resources bundle' */ resourceBundle;
-	protected /* Objet permettant la gestion des Locales */ locale;
+	// Exercice 1 : Gérer l'internationation
+	protected /* Objet permettant la gestion des 'resources bundle' */ ResourceBundle resourceBundle ;
+	protected /* Objet permettant la gestion des Locales */ Locale locale;
 	
 	// Exercice 2 : Logger
 	protected Logger sessionGuiLogger;
 	protected Logger sessionExceptionLogger;
 
 
-	private /*Qu'est ce qu'un singleton ?*/ ApplicationSession session = null;
+	private static /*Qu'est ce qu'un singleton ?*/ ApplicationSession session = null;
 	private ApplicationSession() {
-		/* Definir US comme locale par dÃ©faut */
-		Locale./* Ã  complÃ©ter */
+		/* Definir US comme locale par défaut */
+		Locale.setDefault(Locale.US);/* à compléter */
 		
 		locale = Locale.getDefault();
-		resourceBundle = /* Ã  complÃ©ter */
-		sessionGuiLogger = /* Initialiser le logger */
-		sessionGuiLogger.setLevel(/* Touls les message doivent Ãªtre affichÃ© */));
-		sessionExceptionLogger = /* Logger pour exception */
-		sessionExceptionLogger.setLevel(/* Touls les message doivent Ãªtre affichÃ© */);
+		resourceBundle = ResourceBundle.getBundle("edu.iut.resources.strings.res", locale);/* à compléter */
+		
+		sessionGuiLogger = Logger.getLogger(" guiLogger ");/* Initialiser le logger */
+		sessionGuiLogger.setLevel(Level.ALL);/* Touls les message doivent être affiché */
+		sessionExceptionLogger = Logger.getLogger(" guiLoggerExep ");/* Logger pour exception */
+		sessionExceptionLogger.setLevel(Level.ALL);/* Touls les message doivent être affiché */
 	}
 	
 	
@@ -47,7 +49,7 @@ public class ApplicationSession {
 	public void setLocale(Locale locale){
 		this.locale = locale;
 		Locale.setDefault(this.locale);
-		resourceBundle=/* rÃ©cupÃ©rer les resources */
+		resourceBundle= ResourceBundle.getBundle("edu.iut.resources.strings.res", locale);/* récupérer les resources */
 	}
 	
 	public String getString(String key) {
@@ -56,3 +58,4 @@ public class ApplicationSession {
 	
 	
 }
+
