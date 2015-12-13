@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><agenda>
+  <!--Agenda backup-->
+  <Event Classroom="I208" Date="Mon Dec 07 13:01:13 CET 2015">
+    <Personne Fonction="Student" Mail="0606060606" Nom="Morcrette" Prenom="Alexandre" Tel="test@hotmail.fr"/>
+    <Jury>
+      <Membre Fonction="Jury" Mail="657484684" Nom="jury1" Prenom="jury1" Tel="jury1@hotmail.fr"/>
+      <Membre Fonction="Jury" Mail="68464649" Nom="jury2" Prenom="jury2" Tel="jury2@hotmail.fr"/>
+    </Jury>
+    <Documents>
+      <Document URL="https//cours.iut-orsay.fr"/>
+      <Document URL="http://wikipedia.fr"/>
+    </Documents>
+  </Event>
+  <Event Classroom="I208" Date="Mon Dec 07 13:01:13 CET 2015">
+    <Personne Fonction="Student" Mail="0606060606" Nom="Morcrette" Prenom="Alexandre" Tel="test@hotmail.fr"/>
+    <Jury>
+      <Membre Fonction="Jury" Mail="657484684" Nom="jury1" Prenom="jury1" Tel="jury1@hotmail.fr"/>
+      <Membre Fonction="Jury" Mail="68464649" Nom="jury2" Prenom="jury2" Tel="jury2@hotmail.fr"/>
+    </Jury>
+    <Documents>
+      <Document URL="https//cours.iut-orsay.fr"/>
+      <Document URL="http://wikipedia.fr"/>
+    </Documents>
+  </Event>
+</agenda>
