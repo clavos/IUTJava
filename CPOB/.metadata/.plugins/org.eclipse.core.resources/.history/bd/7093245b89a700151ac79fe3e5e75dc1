@@ -1,0 +1,12 @@
+
+public class Soutenance {
+String periode;
+String jour;
+String mois;
+
+Soutenance(String periode, String jour, String mois){
+	this.periode = periode;
+	this.jour = jour;
+	this.mois = mois;
+}
+}

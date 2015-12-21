@@ -1,0 +1,13 @@
+
+public class Session {
+	int numCompte;
+	String login;
+	String mdp;
+	
+	Session (int num, String log, String m){
+		this.numCompte = num;
+		this.login = log;
+		this.mdp = m;
+
+	}
+}

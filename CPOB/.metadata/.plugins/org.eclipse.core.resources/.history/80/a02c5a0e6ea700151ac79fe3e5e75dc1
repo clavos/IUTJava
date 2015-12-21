@@ -1,0 +1,24 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+/*
+ * CART Robin
+ * MARTIN Killian
+ * MORCRETTE Alexandre
+ * Groupe 3D2
+ */
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		Interface fenetre = new Interface();
+		OutilsJDBC sql = new OutilsJDBC();
+		fenetre.ajout(sql.desc());
+		System.out.println(sql.desc());
+		OutilsJDBC.closeConnection();
+
+	}
+
+}
