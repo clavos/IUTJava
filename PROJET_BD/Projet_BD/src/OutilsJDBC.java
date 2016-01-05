@@ -105,12 +105,12 @@ public class OutilsJDBC {
 				res = resultat.getInt("nb");
 			}
 			
-			Interface.stage.nbStage =res;
+			Interface.stage.nbNonStage2 =100-res;
 		} catch (SQLException e) {
 			System.out.println("Erreur: "+requete);
 		}
 		
-		return res;
+		return 100-res;
 	}
 	
 	// Importe le nombre de stage par Entreprise depuis n année
@@ -142,7 +142,7 @@ public class OutilsJDBC {
 				res = resultat.getInt("nb");
 			}
 			
-			Interface.stage.nbMoyenne =res;
+			Interface.stage.nbMoyenne =res/(n+1);
 		} catch (SQLException e) {
 			System.out.println("Erreur: "+requete);
 		}
@@ -151,7 +151,7 @@ public class OutilsJDBC {
 	
 	// Importe le nombre de stage par ville
 	public static void nbStageVille(String ville) {
-		String requete = "select count (*) AS nb FROM ob_etudiant o where o.numStage IS NOT NULL AND o.numStage.numEntreprise.ville='"+ville+"'";
+		String requete = "select DISTINCT count (*) AS nb FROM ob_etudiant o where o.numStage IS NOT NULL AND o.numStage.numEntreprise.ville='"+ville+"'";
 
 		int res = 0;
 		try {
@@ -167,6 +167,58 @@ public class OutilsJDBC {
 		
 	}
 	
+	// Importe le nombre de stage par departement
+	public static void nbStageDep(String dep) {
+		String requete = "select DISTINCT count (*) AS nb FROM ob_etudiant o where o.numStage IS NOT NULL AND o.numStage.numEntreprise.département='"+dep+"'";
+
+		int res = 0;
+		try {
+			ResultSet resultat = exec1Requete(requete, co, 0);
+			while (resultat.next()) {
+				res = resultat.getInt("nb");
+			}
+			
+			Interface.stage.nbDep =res;
+		} catch (SQLException e) {
+			System.out.println("Erreur: "+requete);
+		}
+		
+	}
+	
+	// Importe le nombre de stage total par zone géographique
+	public static void nbStageTotal() {
+		String requete = "select DISTINCT count (*) AS nb FROM ob_stage";
+
+		int res = 0;
+		try {
+			ResultSet resultat = exec1Requete(requete, co, 0);
+			while (resultat.next()) {
+				res = resultat.getInt("nb");
+			}
+			
+			Interface.stage.nbStageTotal =res;
+		} catch (SQLException e) {
+			System.out.println("Erreur: "+requete);
+		}
+		
+	}
+	
+	// Importe les données pour la courbe
+	public static int statCourbe(String année) {
+		String requete = "select count (*) AS nb FROM ob_etudiant o where o.numStage IS NOT NULL AND o.numStage.dateS>=TO_DATE('01/01/"+année+"', 'DD/MM/YYYY') AND o.numStage.dateS<=TO_DATE('31/12/"+année+"', 'DD/MM/YYYY')";
+		int res = 0;
+		try {
+			ResultSet resultat = exec1Requete(requete, co, 0);
+			while (resultat.next()) {
+				res = resultat.getInt("nb");
+			}
+			
+			Interface.stage.nbStageTotal =res;
+		} catch (SQLException e) {
+			System.out.println("Erreur: "+requete);
+		}
+		return res;
+	}
 	// Rempli le tableau de villes
 	public static void ville() {
 		String requete = "select DISTINCT ville FROM ob_entreprise";
@@ -179,6 +231,23 @@ public class OutilsJDBC {
 				 nb++;
 			}
 			Interface.stage.nbVille =nb;
+		} catch (SQLException e) {
+			System.out.println("Erreur: "+requete);
+		}
+	}
+	
+	// Rempli le tableau de departements
+	public static void departement() {
+		String requete = "select DISTINCT département AS dep FROM ob_entreprise";
+		int nb =0;
+	
+		try {
+			ResultSet resultat = exec1Requete(requete, co, 0);
+			while (resultat.next()) {
+				 Interface.tableauDep[nb] = resultat.getString("dep");
+				 nb++;
+				 
+			}
 		} catch (SQLException e) {
 			System.out.println("Erreur: "+requete);
 		}

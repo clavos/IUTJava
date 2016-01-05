@@ -1,8 +1,0 @@
-
-public class Session {
-	int numCompte;
-	
-	Session (int num){
-		this.numCompte = num;
-	}
-}

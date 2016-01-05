@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<item value="C:\Users\Alexandre\Downloads\mysql-connector-java-3.1.14" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib" key="org.eclipse.jdt.ui.lastextjar"/>
 	<section name="FatJarPackageWizard">
 		<item value="C:\Users\Alexandre\Desktop\IUTJava\CPOB" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
-		<item value="Main - Projet_CPO" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
-		<item value="C:\Users\Alexandre\Downloads\ProjetCPO.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="Main (1) - Projet_BD" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
+		<item value="C:\Users\Alexandre\Downloads\ProjetBD.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
 		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
-		<item value="1" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
+		<item value="2" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
 		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="C:\Users\Alexandre\Downloads\ProjetBD.jar"/>
 			<item value="C:\Users\Alexandre\Downloads\ProjetCPO.jar"/>
 			<item value="C:\Users\Alexandre\Downloads\Projet_Cpo.jar"/>
 			<item value="C:\Users\Alexandre\Downloads\testt.jar"/>

@@ -22,14 +22,20 @@ public class Interface extends JFrame {
 	public static JLabel lb8 = new JLabel(" année : ");
 	public static JLabel lb10 = new JLabel(" année : ");
 	public static JLabel lb12 = new JLabel(" : ");
+	public static JLabel lb15 = new JLabel(" : ");
+
 	public static String[] tableauEntre;
 	public static String[] tableauVille;
+	public static String[] tableauDep;
+
 
 	
 	
 	Interface() {
 		tableauEntre = new String[300];
 		tableauVille = new String[300];
+		tableauDep = new String[300];
+
 
 		stage = new Stage();
 		this.setTitle("Statistiques des Stages");
@@ -63,6 +69,9 @@ public class Interface extends JFrame {
 		OutilsJDBC.nbNonStage();
 		OutilsJDBC.entreprise();
 		OutilsJDBC.ville();
+		OutilsJDBC.nbStageTotal();
+		OutilsJDBC.departement();
+		OutilsJDBC.nbStageMoyen(0);
 
 
 		JLabel lb1 = new JLabel("Nombre d'étudiants : "+  stage.nbEtudiant);
@@ -73,6 +82,10 @@ public class Interface extends JFrame {
 		JLabel lb7 = new JLabel(" depuis ");
 		JLabel lb9 = new JLabel("Nombre moyen d'étudiants ayant un stage depuis ");
 		JLabel lb11 = new JLabel("Nombre d'étudiants ayant un stage dans la ville ");
+		JLabel lb14 = new JLabel("Nombre d'étudiants ayant un stage dans le departement ");
+		JLabel lb13 = new JLabel("Nombre de stages pour toute les zones : "+stage.nbStageTotal);
+
+		JLabel abscisse = new JLabel("2010    -    2011     -     2012    -    2013    -    2014      -    2015      -    2016");
 
 
 		JComboBox<String> comboStage = new JComboBox();
@@ -98,7 +111,6 @@ public class Interface extends JFrame {
 		for (int i=0; i<stage.nbEntre; i++){
 			comboEntreprise.addItem(tableauEntre[i]);
 		}
-		comboEntreprise.setSelectedIndex(1);
 
 		
 		
@@ -111,7 +123,6 @@ public class Interface extends JFrame {
 		comboAnnee.addItem("5");
 		comboAnnee.addItem("6");
 		comboAnnee.addItem("7");
-		comboAnnee.setSelectedIndex(1);
 		OutilsJDBC.nbStageEntr(comboAnnee.getSelectedIndex(), (String)comboEntreprise.getSelectedItem());
 		lb8 = new JLabel(" année : "+ stage.nbStageEntre);
 		class ItemAction2 implements ActionListener{
@@ -142,7 +153,6 @@ public class Interface extends JFrame {
 		comboMoyenne.addItem("5");
 		comboMoyenne.addItem("6");
 		comboMoyenne.addItem("7");
-		comboMoyenne.setSelectedIndex(1);
 		OutilsJDBC.nbStageEntr(comboAnnee.getSelectedIndex(), (String)comboEntreprise.getSelectedItem());
 		lb10 = new JLabel(" année : "+ stage.nbMoyenne);
 		class ItemAction4 implements ActionListener{
@@ -159,7 +169,6 @@ public class Interface extends JFrame {
 		for (int i=0; i<stage.nbEntre; i++){
 			comboVille.addItem(tableauVille[i]);
 		}
-		comboVille.setSelectedIndex(1);
 		OutilsJDBC.nbStageVille((String)comboVille.getSelectedItem());
 		lb12 = new JLabel(" : "+ stage.nbVille);
 		class ItemAction5 implements ActionListener{
@@ -171,6 +180,21 @@ public class Interface extends JFrame {
 		};
 		comboVille.addActionListener(new ItemAction5());
 
+		JComboBox<String> comboDep = new JComboBox();
+		for (int i=0; i<stage.nbEntre; i++){
+			comboDep.addItem(tableauDep[i]);
+		}
+		OutilsJDBC.nbStageDep((String)comboDep.getSelectedItem());
+		lb15.setText(" : "+ stage.nbDep);
+		class ItemAction6 implements ActionListener{
+			public void actionPerformed(ActionEvent e){
+				OutilsJDBC.nbStageVille((String)comboDep.getSelectedItem());
+				lb15.setText(" : "+ stage.nbDep);
+				
+			}
+		};
+		comboDep.addActionListener(new ItemAction6());
+		
 		lb1.setBounds(10, 10, 450, 25);
 		lb2.setBounds(10, 40, 450, 25);
 		lb3.setBounds(10, 70, 450, 25);
@@ -188,13 +212,19 @@ public class Interface extends JFrame {
 		lb11.setBounds(10, 190, 450, 25);
 		comboVille.setBounds(300, 195, 100, 20);
 		lb12.setBounds(405, 190, 450, 25);
-
+		lb14.setBounds(10, 220, 450, 25);
+		lb13.setBounds(10, 250, 450, 25);
+		comboDep.setBounds(335, 225, 100, 20);
+		lb15.setBounds(440, 220, 450, 25);
+		abscisse.setBounds(20,550,450,25);
 
 		panel.add(comboStage);
 		panel.add(comboEntreprise);
 		panel.add(comboAnnee);
 		panel.add(comboMoyenne);
 		panel.add(comboVille);
+		panel.add(comboDep);
+
 
 		panel.add(lb1);
 		panel.add(lb2);
@@ -208,19 +238,24 @@ public class Interface extends JFrame {
 		panel.add(lb10);
 		panel.add(lb11);
 		panel.add(lb12);
-		
+		panel.add(lb14);
+		panel.add(lb13);
+		panel.add(lb15);
+		panel.add(abscisse);
+
+
 
 		Courbe courbe;
 		courbe=new Courbe();
 		 
-		courbe.ajouterPoint(new Point(5, 6681.8929));
-		courbe.ajouterPoint(new Point(25, 11834.3456));
-		courbe.ajouterPoint(new Point(45, 37059.7267));
-		courbe.ajouterPoint(new Point(65, 32249.5167));
-		courbe.ajouterPoint(new Point(85, 11503.6712));
-		courbe.ajouterPoint(new Point(105, 7485.3936));
-		courbe.ajouterPoint(new Point(125, 5720.6952));
-		courbe.setBounds(30, 270, 400, 300);
+		courbe.ajouterPoint(new Point(5, OutilsJDBC.statCourbe("2010")));
+		courbe.ajouterPoint(new Point(25, OutilsJDBC.statCourbe("2011")));
+		courbe.ajouterPoint(new Point(45, OutilsJDBC.statCourbe("2012")));
+		courbe.ajouterPoint(new Point(65, OutilsJDBC.statCourbe("2013")));
+		courbe.ajouterPoint(new Point(85, OutilsJDBC.statCourbe("2014")));
+		courbe.ajouterPoint(new Point(105, OutilsJDBC.statCourbe("2015")));
+		courbe.ajouterPoint(new Point(125, OutilsJDBC.statCourbe("2016")));
+		courbe.setBounds(10, 270, 400, 300);
 		panel.add(courbe);
  
 
