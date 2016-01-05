@@ -1,0 +1,16 @@
+
+public class Stage {
+	int nbEtudiant;
+	int nbStage;
+	int nbNonStage;
+
+	Stage() {
+		this.nbEtudiant = 0;
+		this.nbStage = 0;
+		this.nbNonStage = 0;
+	}
+
+
+	
+
+}

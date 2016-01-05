@@ -150,9 +150,9 @@ public class Interface extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				session.login =userText.getText();
 				session.mdp =passwordText.getText();
-				OutilsJDBC.login(session);
+				if(OutilsJDBC.login(session)){
 				afficherSoutenance();
-				set();
+				set();}
 			}
 		});
 		

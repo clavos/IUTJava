@@ -1,0 +1,68 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+public class Interface extends JFrame {
+	public static Stage stage;
+	public static JPanel panel;
+	
+	Interface() {
+		stage = new Stage();
+		this.setTitle("Statistiques des Stages");
+		this.setSize(700, 500);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		panel = new JPanel();
+		this.setContentPane(panel);
+		afficherSoutenance();
+		set();
+
+	}
+
+	public void ajout(String s) {
+		JLabel test = new JLabel(s);
+		panel.add(test);
+
+	}
+
+	public void set() {
+		this.setVisible(true);
+		this.setResizable(false);
+
+	}
+
+	private void afficherSoutenance (){
+		panel.removeAll();
+		panel.setLayout(null);
+		OutilsJDBC.nbEtudiantR();
+		JLabel lb1 = new JLabel("Nombre d'étudiant : "+  stage.nbEtudiant);
+		JLabel lb2 = new JLabel("Nombre d'étudiant avec un stage : "+  stage.nbStage);
+		JLabel lb3 = new JLabel("Nombre d'étudiant sans stage : "+  stage.nbNonStage);
+
+		lb1.setBounds(10, 10, 450, 25);
+		lb2.setBounds(10, 40, 450, 25);
+		lb3.setBounds(10, 70, 450, 25);
+
+		panel.add(lb1);
+		panel.add(lb2);
+		panel.add(lb3);
+
+		
+	}
+	
+	
+	
+
+}

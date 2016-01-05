@@ -5,22 +5,22 @@ public class OutilsJDBC {
 
 	public static Connection openConnection() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("oracle.jdbc.driver.OracleDriver");
 			co = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/projet_cpo", "root", "");
+					"jdbc:oracle:thin:amorcre/amorcre@oracle.iut-orsay.fr:1521:etudom");
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("il manque le driver oracle");
+			System.err.println("il manque le driver oracle");
 			System.exit(1);
 		} catch (SQLException e) {
-			System.out
-					.println("impossible de se connecter à l'url : jdbc:mysql://localhost:3306/projet_cpo");
+			System.err
+					.println("impossible de se connecter à l'url : jdbc:oracle:thin:###/###@oracle.iut-orsay.fr:1521:etudom");
 			System.exit(1);
 		}
 		return co;
 	}
 
-	public static ResultSet exec1Requete(String requete, Connection co, int type) {
+	public static ResultSet exec1Requete(String requete, Connection co, int type, int type2) {
 		ResultSet res = null;
 		try {
 			Statement st;
@@ -30,10 +30,12 @@ public class OutilsJDBC {
 				st = co.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
 			}
-			;
-			res = st.executeQuery(requete);
+			
+			if( type2 == 0){res = st.executeQuery(requete);}
+			if( type2 == 2){st.executeUpdate(requete);co.commit();}
+
 		} catch (SQLException e) {
-			System.out.println("Problème lors de l'exécution de la requete : "
+			System.err.println(type2 +"Problème lors de l'exécution de la requete : "
 					+ requete);
 		}
 		;
@@ -45,7 +47,7 @@ public class OutilsJDBC {
 			co.close();
 			System.out.println("Connexion fermée!");
 		} catch (SQLException e) {
-			System.out.println("Impossible de fermer la connexion");
+			System.err.println("Impossible de fermer la connexion");
 		}
 	}
 
@@ -61,7 +63,7 @@ public class OutilsJDBC {
 		String requete = "SELECT COUNT(*) AS nb FROM soutenance WHERE numCompte ='"+ session.numCompte + "'";
 		int res = 0;
 		try {
-			ResultSet resultat = exec1Requete(requete, co, 1);
+			ResultSet resultat = exec1Requete(requete, co, 1,0);
 			while (resultat.next()) {
 				res = resultat.getInt("nb");
 			}
@@ -70,28 +72,31 @@ public class OutilsJDBC {
 
 			} else {
 				requete = "INSERT INTO soutenance VALUES ('" + periode + "',"+ session.numCompte + ",'" + jour + "','" + mois+ "');";
-
+				
 			}
-			Statement stat = co.createStatement();
-			stat.executeUpdate(requete);
+			resultat = exec1Requete(requete, co, 1,2);
+			
 			session.soutenance.periode =periode;
 			session.soutenance.jour =jour;
 			session.soutenance.mois =mois;
 
 		} catch (SQLException e) {
-			System.out.println("Inserer Soutenance");
+			System.err.println("Inserer Soutenance");
 		}
 	}
 
 	// Un utilisateur se connecte à sa session
-	public static void login(Session session) {
+	public static boolean login(Session session) {
+		
+		///////////////////////////////////
 		boolean verif = false;
 		int res = 0;
 		String requete = "SELECT COUNT(*) AS total FROM compte WHERE login='"+ session.login + "' AND mdp='" + session.mdp + "'";
+
 		String requete2 = "SELECT numCompte FROM compte WHERE login='"+ session.login + "' AND mdp='" + session.mdp + "'";
 
 		try {
-			ResultSet resultat = exec1Requete(requete, co, 1);
+			ResultSet resultat = exec1Requete(requete, co, 1,0);
 			while (resultat.next()) {
 				if (resultat.getInt("total") == 0) {
 					verif = false;
@@ -103,17 +108,17 @@ public class OutilsJDBC {
 
 			if (verif) {
 
-				resultat = exec1Requete(requete2, co, 1);
+				resultat = exec1Requete(requete2, co, 1,0);
 				while (resultat.next()) {
 					res = resultat.getInt("numCompte");
 				}
 			}
 		} catch (SQLException e) {
-			System.out.println("login");
+			System.err.println("login");
 		}
 		session.numCompte = res;
 		initiate(session);
-
+		return verif;
 	}
 
 	private static void initiate(Session session) {
@@ -124,28 +129,28 @@ public class OutilsJDBC {
 		int res = 0;
 
 		try {
-			ResultSet resultat = exec1Requete(req, co, 1);
+			ResultSet resultat = exec1Requete(req, co, 1,0);
 			while (resultat.next()) {
 				res = resultat.getInt("nb");
 			}
 
 			if (res == 1) {
-				resultat = exec1Requete(requete, co, 1);
+				resultat = exec1Requete(requete, co, 1,0);
 				while (resultat.next()) {
 					session.soutenance.periode = resultat.getString("periode");
 				}
-				resultat = exec1Requete(requete2, co, 1);
+				resultat = exec1Requete(requete2, co, 1,0);
 				while (resultat.next()) {
 					session.soutenance.jour = resultat.getString("jour");
 				}
-				resultat = exec1Requete(requete3, co, 1);
+				resultat = exec1Requete(requete3, co, 1,0);
 				while (resultat.next()) {
 					session.soutenance.mois = resultat.getString("mois");
 				}
 			}
 
 		} catch (SQLException e) {
-			System.out.println("initiate");
+			System.err.println("initiate");
 		}
 	}
 
